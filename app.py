@@ -240,6 +240,10 @@ app.layout = (
                             )
                         ]
                     ),
+                    html.Hr(),
+                    dcc.Markdown("""
+                    Designed by [Akarshi Jain](https://github.com/akarshijain) using [Plotly Dash](https://plotly.com/dash/)
+                    """),
                 ],
                 fluid=True,
             ), 

@@ -2,6 +2,7 @@
 # coding: utf-8
 
 # In[1]:
+import os
 
 import numpy as np
 
@@ -28,7 +29,8 @@ def _getResizeArr(signalsDict):
 def getDefaultSignalsDict(subjectList):
     defaultSignalsDict = {}
     for subject in subjectList:
-        defaultSignalsDict[subject] = binReader.loadSignals(f'./dataset/{subject}')
+        #defaultSignalsDict[subject] = binReader.loadSignals(f'./dataset/{subject}')
+        defaultSignalsDict[subject] = binReader.loadSignals(os.path.abspath(subject))
     defaultSignalsDict = _getResizeArr(defaultSignalsDict)  
     return defaultSignalsDict
 

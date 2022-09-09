@@ -12,7 +12,7 @@ import dash_bootstrap_components as dbc
 import dataFile as getData
 import GetICCValues as iccValues
 
-external_stylesheets = [dbc.themes.BOOTSTRAP, "assets/segmentation-style.css"]
+external_stylesheets = [dbc.themes.BOOTSTRAP, "./assets/segmentation-style.css"]
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 server = app.server

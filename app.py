@@ -110,7 +110,7 @@ files = dbc.Col(
                             id="file-upload",
                             children=html.Div(
                                 [
-                                    "Drag and Drop or ", html.A("Select a Folder")
+                                    "Drag and Drop or ", html.A("Select Files")
                                 ]
                             ),
                             style={

@@ -12,14 +12,13 @@ import dash_bootstrap_components as dbc
 import dataFile as getData
 import GetICCValues as iccValues
 
-external_stylesheets = [dbc.themes.BOOTSTRAP, "./assets/segmentation-style.css"]
+external_stylesheets = [dbc.themes.BOOTSTRAP, "assets/segmentation-style.css"]
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 server = app.server
 app.title = "qEEGViz"
 
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
-
 
 button_github = dbc.Button(
     "View on Github",
@@ -104,7 +103,7 @@ files = dbc.Col(
         dbc.Card(
             id="files-card",
             children=[
-                dbc.CardHeader("Enter Directory Path", style={"background-color": "#C8DFEA", "font-weight": "bold"}),
+                dbc.CardHeader("Enter Directory Path", style={"backgroundColor": "#C8DFEA", "fontWeight": "bold"}),
                 dbc.CardBody(
                     dash.html.Center([
                         # dcc.Upload(
@@ -134,7 +133,7 @@ files = dbc.Col(
                                 'width': "60%",
                             }
                         ),
-                        html.Div(['Accepted format of files inside directory: .bin'], style={"font-size": "8px", "color": "grey"}),
+                        html.Div(['Accepted format of files inside directory: .bin'], style={"fontSize": "8px", "color": "grey"}),
                     ]) 
                 )
             ],
@@ -148,7 +147,7 @@ parameters = dbc.Col(
         dbc.Card(
             id="parameters-card",
             children=[
-                dbc.CardHeader("Select Parameters", style={"background-color": "#C8DFEA", "font-weight": "bold"}),
+                dbc.CardHeader("Select Parameters", style={"backgroundColor": "#C8DFEA", "fontWeight": "bold"}),
                 dbc.CardBody(
                     #dash.html.Center(
                         [

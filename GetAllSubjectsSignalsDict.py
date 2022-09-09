@@ -30,7 +30,7 @@ def getDefaultSignalsDict(subjectList):
     defaultSignalsDict = {}
     for subject in subjectList:
         #defaultSignalsDict[subject] = binReader.loadSignals(f'./dataset/{subject}')
-        defaultSignalsDict[subject] = binReader.loadSignals(f'./dataset/{subject}')
+        defaultSignalsDict[subject] = binReader.loadSignals(subject)
     defaultSignalsDict = _getResizeArr(defaultSignalsDict)  
     return defaultSignalsDict
 

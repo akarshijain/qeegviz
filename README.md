@@ -1,3 +1,4 @@
+<img align="left" width="100" height="100" src="assets/qeegviz_logo.png">
 # qEEGViz - A Visualisation tool for Reliability of Quantitative EEG Features
 
 ## About this app

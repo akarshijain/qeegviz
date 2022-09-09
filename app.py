@@ -1,3 +1,5 @@
+import os
+
 from plotly.subplots import make_subplots
 import plotly.express as px
 import plotly.graph_objects as go
@@ -98,29 +100,37 @@ files = dbc.Col(
         dbc.Card(
             id="files-card",
             children=[
-                dbc.CardHeader("Upload Files", style={"background-color": "#C8DFEA", "font-weight": "bold"}),
+                dbc.CardHeader("Enter Directory Path", style={"background-color": "#C8DFEA", "font-weight": "bold"}),
                 dbc.CardBody(
                     dash.html.Center([
-                        dcc.Upload(
-                            id="file-upload",
-                            children=html.Div(
-                                [
-                                    "Drag and Drop or ", html.A("Select a Folder")
-                                ]
-                            ),
+                        # dcc.Upload(
+                        #     id="file-upload",
+                        #     children=html.Div(
+                        #         [
+                        #             "Drag and Drop or ", html.A("Select a Folder")
+                        #         ]
+                        #     ),
+                        #     style={
+                        #         'width': "60%",
+                        #         'height': '40px',
+                        #         'lineHeight': '40px',
+                        #         'borderWidth': '1px',
+                        #         'borderStyle': 'dashed',
+                        #         'borderRadius': '3px',
+                        #         'textAlign': 'center',
+                        #         'margin': '10px'
+                        #     },
+                        #     multiple=True
+                        # ),
+                        dcc.Input(
+                            id="input-file-path",
+                            type="text",
+                            placeholder="Enter path of directory",
                             style={
                                 'width': "60%",
-                                'height': '40px',
-                                'lineHeight': '40px',
-                                'borderWidth': '1px',
-                                'borderStyle': 'dashed',
-                                'borderRadius': '3px',
-                                'textAlign': 'center',
-                                'margin': '10px'
-                            },
-                            multiple=True
+                            }
                         ),
-                        html.Div(['Accepted format: .bin'], style={"font-size": "4px", "color": "grey"}),
+                        html.Div(['Accepted format of files inside directory: .bin'], style={"font-size": "4px", "color": "grey"}),
                     ]) 
                 )
             ],
@@ -253,7 +263,8 @@ app.layout = (
 
 @app.callback(Output('eegFeatureVisual','figure'),
               Input('submit-button','n_clicks'),
-              State('file-upload', 'filename'),
+              #State('file-upload', 'filename'),
+              State('input-file-path', 'value'),
               State('featureName','value'),
               State('referenceName', 'value'),
               State('epochList', 'value')
@@ -270,10 +281,17 @@ app.layout = (
 #     return is_open
 
 
-def update_graph(n, subjectList, featureName, referenceName, epochList):
+def update_graph(n, dirPath, featureName, referenceName, epochList):
 
     if n is None:
         return no_update
+
+    file_name_list = os.listdir(dirPath)
+    subjectList = []
+    for file in file_name_list:
+        if file.endswith(".bin"):
+            subjectList.append(os.path.join(dirPath, file))
+
 
     featureList = getData.getFeatureList(featureName)
     numFeatures = len(featureList)

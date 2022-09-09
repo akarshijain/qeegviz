@@ -21,7 +21,7 @@ button_github = dbc.Button(
     "View on Github",
     id="gh-link",
     outline=True,
-    href="https://github.com/akarshijain/EEGFeatureReliability/blob/main/app.py",
+    href="https://github.com/akarshijain/qeegviz",
     style={"color": "white", "border": "solid 1px white"},
 )
 

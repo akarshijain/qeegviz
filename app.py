@@ -128,6 +128,7 @@ files = dbc.Col(
                         dcc.Input(
                             id="input-file-path",
                             type="text",
+                            value="",
                             placeholder="Enter path of directory",
                             style={
                                 'width': "60%",

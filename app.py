@@ -1,4 +1,5 @@
 import os
+import pathlib
 
 from plotly.subplots import make_subplots
 import plotly.express as px
@@ -16,6 +17,9 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 server = app.server
 app.title = "qEEGViz"
+
+APP_PATH = str(pathlib.Path(__file__).parent.resolve())
+
 
 button_github = dbc.Button(
     "View on Github",
@@ -130,7 +134,7 @@ files = dbc.Col(
                                 'width': "60%",
                             }
                         ),
-                        html.Div(['Accepted format of files inside directory: .bin'], style={"font-size": "4px", "color": "grey"}),
+                        html.Div(['Accepted format of files inside directory: .bin'], style={"font-size": "8px", "color": "grey"}),
                     ]) 
                 )
             ],
@@ -290,7 +294,7 @@ def update_graph(n, dirPath, featureName, referenceName, epochList):
     subjectList = []
     for file in file_name_list:
         if file.endswith(".bin"):
-            subjectList.append(os.path.join(dirPath, file))
+            subjectList.append(os.path.join(APP_PATH, os.path.join(dirPath, file)))
 
 
     featureList = getData.getFeatureList(featureName)

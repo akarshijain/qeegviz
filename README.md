@@ -1,14 +1,16 @@
-# qEEGViz - A Visualisation tool for Reliability of Quantitative EEG Features
+<img align="left" width="100" height="100" src="assets/qeegviz_logo.png">
+
+<h1 align="center"> qEEGViz - A Visualisation Tool for Reliability of Quantitative EEG Features </h1>
 
 ## About this app
 
-Reliability and validity of features are important statistical concepts used by researchers to evaluate the quality of a research and draw meaningful conclusions from a study. One of the most popular ways of evaluating the reliability is by quantifying using intra-class correlation coefficient (ICC). We aim to develop a user-friendly, interactive web application that enables scholars and researchers to visualize the reliability of quantitative EEG (qEEG) features across various subjects. This tool is an academic contribution created solely for scholars and researchers to enhance the statistical power of the EEG experiment to detect a true treatment effect.
+An electroencephalogram (EEG) is a test that detects the electrical patterns of the brain via small metal discs (electrodes) attached at the surface of the scalp. Quantitative EEG (qEEG) is a modern type of EEG that extracts mathematical values from digital EEG using complex algorithms. Its clinical applications include dementia, epilepsy, stroke, traumatic brain injury, neuropsychiatric disorders and many more. Feature extraction is an important step in the process of EEG signal classification. An EEG or qEEG feature is said to be clinically reliable, if repeated measurements of a particular feature from a subject do not exhibit large fluctuations. This is important for researchers who are developing tools to evaluate the functional state of the brain accurately. Currently there are no applications that provide a platform to visualise the reliability of features. Here, we introduce qEEGViz, a freely accessible, easy-to-use, web-application that can be used by researchers and scholars to interactively visualise the reliability of Quantitative EEG features in multi-dimensions among various subjects, epochs lengths and electrode references.
 
 ## Dataset
 
-The dataset used to create the visualization tool is provided by Tom Brismar from the Karolinska Institute in Stockholm (http://clopinet.com/causality/data/nolte/). Each dataset is an EEG measurement of 10 subjects with eyes closed (resting state) using 19 channels according to the standard 10-20 system. The sampling rate is 256Hz. According to the information given on the website, on dividing the data set into blocks of 4 seconds (i.e. 1024 data points) gives us a block of continuous measurement which is cleaned of apparent artifacts.
+The dataset used to create the visualization tool is provided by Tom Brismar from the Karolinska Institute in Stockholm (http://clopinet.com/causality/data/nolte/). Each dataset is an EEG measurement of 10 subjects with eyes closed (resting state) using 19 channels according to the standard 10-20 system. The sampling rate is 256Hz. According to the source, on dividing the data set into blocks of 4 seconds (i.e. 1024 data points) gives us a block of continuous measurement which is cleaned of apparent artifacts.
 
-All data files are saved in .bin format under the dataset folder. The user can add his or her desired files under the same folder and visualise the reliability of quantitative EEG Features.
+All data files are saved in ```.bin``` format under the ```dataset``` folder. The user can add his or her desired data files under the same folder and visualise the reliability of quantitative EEG Features.
 
 ## How to run this app locally
 
@@ -35,12 +37,14 @@ displayed in the terminal.
 python3 app.py
 ```
 
-## Screenshot
+## Results
+We created a democratic platform where the user can input raw EEG signals and select the power features, electrode reference and epoch lengths according to his requirement. Finally,the application outputs the reliability of the qEEG features in 1-dimensional (line graph), 2-dimensional (topographical map). This tool is an academic contribution created solely for scholars and researchers to visualise qEEG features across the brain.
 
 ![Screenshot of app](assets/screenshot.png)
-
-## Results
 
 ![Screenshot of app](assets/line_graph.png)
 
 ![Screenshot of app](assets/topo_map.png)
+
+## Fututre Enhancements 
+We plan to expand the form of visualisation by projecting the results in a 3-D Brain Viewer which can provide a clearer image and understanding of the reliability of the features. 

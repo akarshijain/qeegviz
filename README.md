@@ -43,6 +43,8 @@ We created a democratic platform where the user can input raw EEG signals and se
 ### Input Page and Results for Absolute Power Features across 19 Electrodes for 2s, 4s Epochs for 10 Subjects
 ![Screenshot of app](assets/input_page.png)
 
+![Screenshot of app](assets/results.png)
+
 ### Topographic Maps of Absolute Power Features across 19 Electrodes for 1s, 2s, 4s and 8s Epochs for 10 Subjects
 ![Screenshot of app](assets/topo_map.png)
 

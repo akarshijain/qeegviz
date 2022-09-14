@@ -38,13 +38,13 @@ python3 app.py
 ```
 
 ## Results
-We created a democratic platform where the user can input raw EEG signals and select the power features, electrode reference and epoch lengths according to his requirement. Finally,the application outputs the reliability of the qEEG features in 1-dimensional (line graph), 2-dimensional (topographical map). This tool is an academic contribution created solely for scholars and researchers to visualise qEEG features across the brain.
+We created a democratic platform where the user can input raw EEG signals and select the power features, electrode reference and epoch lengths according to his requirement. Finally,the web application outputs the reliability of the qEEG features in the form of topographic map. This tool is an academic contribution created solely for scholars and researchers to visualise qEEG features across the brain.
 
-![Screenshot of app](assets/screenshot.png)
+### Input Page and Results for Absolute Power Features across 19 Electrodes for 2s, 4s Epochs for 10 Subjects
+![Screenshot of app](assets/input_page.png)
 
-![Screenshot of app](assets/line_graph.png)
-
+### Topographic Maps of Absolute Power Features across 19 Electrodes for 1s, 2s, 4s and 8s Epochs for 10 Subjects
 ![Screenshot of app](assets/topo_map.png)
 
 ## Fututre Enhancements 
-We plan to expand the form of visualisation by projecting the results in a 3-D Brain Viewer which can provide a clearer image and understanding of the reliability of the features. 
+We plan to optimise the code for faster results and expand the form of visualisation by projecting the results in a 3-D Brain Viewer which can provide a clearer image and understanding of the reliability of the features. 

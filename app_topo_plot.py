@@ -305,16 +305,20 @@ def update_graph(n, subjectList, featureName, referenceName, epochList):
     mneInfo = mne.create_info(ch_names = electrodeList, ch_types = ['eeg'] * numElectrodes, sfreq=250)
     mneInfo.set_montage('standard_1020')
     
-    fig, ax = plt.subplots(ncols=numEpochs+1, nrows=numFeatures+1, figsize=(10, 10), gridspec_kw=dict(top=0.9),
-                            sharex=True, sharey=True)
-    
+    fig, ax = plt.subplots(ncols=numEpochs, nrows=numFeatures, figsize=(20, 20), gridspec_kw=dict(top=0.9),
+                        sharex=True, sharey=True)
+
     for epoch in range(0, numEpochs):
         epoch_num = epochList[epoch]
         for feature in range(0, numFeatures):
             feature_name = featureList[feature]
             dataToPlot = iccValuesArr[epoch][feature]
-            mne.viz.plot_topomap(dataToPlot, mneInfo, axes = ax[feature][epoch], show = False)
-            ax[feature][epoch].set_title([feature_name, epoch_num], fontweight='bold', fontsize=4)
+            if(numEpochs < 2):
+                mne.viz.plot_topomap(dataToPlot, mneInfo, axes = ax[feature], show = False)
+                ax[feature].set_title([feature_name, epoch_num], fontweight='bold', fontsize=10)
+            else:
+                mne.viz.plot_topomap(dataToPlot, mneInfo, axes = ax[feature][epoch], show = False)
+                ax[feature][epoch].set_title([feature_name, epoch_num], fontweight='bold', fontsize=10)
 
     out_url = fig_to_uri(fig)
     return out_url

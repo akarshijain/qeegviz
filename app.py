@@ -1,5 +1,20 @@
 import os
-import pathlib
+import matplotlib.pyplot as plt
+import numpy as np
+import base64
+import mne 
+import dash
+import plotly.tools as tls
+
+from plotly.offline import iplot
+from matplotlib import pyplot as plt
+from dash import dcc, html
+from dash.dependencies import Input, Output
+from IPython import display
+from io import BytesIO
+
+import dataFile as getData
+import GetICCValues as iccValues
 
 from plotly.subplots import make_subplots
 import plotly.express as px
@@ -12,13 +27,26 @@ import dash_bootstrap_components as dbc
 import dataFile as getData
 import GetICCValues as iccValues
 
+def fig_to_uri(in_fig, close_all=True, **save_args):
+    """
+    Save a figure as a URI
+    :param in_fig:
+    :return:
+    """
+    out_img = BytesIO()
+    in_fig.savefig(out_img, format='png', **save_args)
+    if close_all:
+        in_fig.clf()
+        plt.close('all')
+    out_img.seek(0)  # rewind file
+    encoded = base64.b64encode(out_img.read()).decode("ascii").replace("\n", "")
+    return "data:image/png;base64,{}".format(encoded)
+
 external_stylesheets = [dbc.themes.BOOTSTRAP, "assets/segmentation-style.css"]
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 server = app.server
 app.title = "qEEGViz"
-
-#APP_PATH = str(pathlib.Path(__file__).parent.resolve())
 
 button_github = dbc.Button(
     "View on Github",
@@ -229,18 +257,18 @@ app.layout = (
                     html.Br(),
                     dbc.Row(parameters),
                     html.Br(),
-                    dcc.RadioItems(
-                        id='graph-choice',
-                        options=[
-                            {'label': ' Line Graph', 'value': 'one_dim'},
-                            {'label': ' Topographical Map', 'value': 'two_dim'},
-                            {'label': ' 3D Brain Viewer (Beta Version)', 'value': 'three_dim'},
-                        ],
-                        #value='one_dim',
-                        #inline=True,
-                        labelStyle={'display': 'block'}
-                    ),
-                    html.Br(),
+                    # dcc.RadioItems(
+                    #     id='graph-choice',
+                    #     options=[
+                    #         {'label': ' Line Graph', 'value': 'one_dim'},
+                    #         {'label': ' Topographical Map', 'value': 'two_dim'},
+                    #         {'label': ' 3D Brain Viewer (Beta Version)', 'value': 'three_dim'},
+                    #     ],
+                    #     #value='one_dim',
+                    #     #inline=True,
+                    #     labelStyle={'display': 'block'}
+                    # ),
+                    # html.Br(),
                     dbc.Button(
                         "Create Graph",
                         id="submit-button",
@@ -249,8 +277,10 @@ app.layout = (
                     html.Div(
                         [
                             dbc.Spinner(
-                                dcc.Graph(id='eegFeatureVisual', style={'height': '80vh'}),
-                                color="primary"
+                                # dcc.Graph(id='eegFeatureVisual', style={'height': '80vh'}),
+                                # color="primary"
+                                html.Div([html.Img(id = 'eegFeatureVisual', src = '')],
+                                id='plot_div'),
                             )
                         ]
                     ),
@@ -265,7 +295,8 @@ app.layout = (
     )
 )
 
-@app.callback(Output('eegFeatureVisual','figure'),
+@app.callback(#Output('eegFeatureVisual','figure'),
+              Output('eegFeatureVisual','src'),
               Input('submit-button','n_clicks'),
               State('file-upload', 'filename'),
               #State('input-file-path', 'value'),
@@ -284,33 +315,40 @@ app.layout = (
 #         return not is_open
 #     return is_open
 
-
 def update_graph(n, subjectList, featureName, referenceName, epochList):
 
     if n is None:
         return no_update
 
-    # file_name_list = os.listdir(dirPath)
-    # subjectList = []
-    # for file in file_name_list:
-    #     if file.endswith(".bin"):
-    #         subjectList.append(os.path.join(APP_PATH, os.path.join(dirPath, file)))
-
-
+    electrodeList = getData.getElectrodeList()
     featureList = getData.getFeatureList(featureName)
+
+    numElectrodes = len(electrodeList)
     numFeatures = len(featureList)
     numEpochs = len(epochList)
 
     iccValuesArr = iccValues.getICCValues(subjectList, featureName, referenceName, epochList)
-    fig = make_subplots(rows=numFeatures, cols=numEpochs)
+
+    mneInfo = mne.create_info(ch_names = electrodeList, ch_types = ['eeg'] * numElectrodes, sfreq=250)
+    mneInfo.set_montage('standard_1020')
+    
+    fig, ax = plt.subplots(ncols=numEpochs, nrows=numFeatures, figsize=(10, 10), gridspec_kw=dict(top=0.9),
+                        sharex=True, sharey=True)
 
     for epoch in range(0, numEpochs):
+        epoch_num = epochList[epoch]
         for feature in range(0, numFeatures):
-            fig.add_trace(go.Scatter(y=iccValuesArr[epoch][feature]),
-            row=feature+1, col=epoch+1)
-            fig.update_layout(height = 1000, width = 1500)
+            feature_name = featureList[feature]
+            dataToPlot = iccValuesArr[epoch][feature]
+            if(numEpochs < 2):
+                mne.viz.plot_topomap(dataToPlot, mneInfo, axes = ax[feature], show = False)
+                ax[feature].set_title([feature_name, epoch_num], fontweight='bold', fontsize=10)
+            else:
+                mne.viz.plot_topomap(dataToPlot, mneInfo, axes = ax[feature][epoch], show = False)
+                ax[feature][epoch].set_title([feature_name, epoch_num], fontweight='bold', fontsize=10)
 
-    return fig
+    out_url = fig_to_uri(fig)
+    return out_url
 
 if __name__ == '__main__':
     app.run_server(debug=True)

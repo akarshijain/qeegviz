@@ -255,8 +255,10 @@ app.layout = (
                     html.Div(
                         [
                             dbc.Spinner(
-                                dcc.Graph(id='eegFeatureVisual', style={'height': '80vh'}),
-                                color="primary"
+                                #dcc.Graph(id='eegFeatureVisual', style={'height': '80vh'}),
+                                #color="primary"
+                                html.Div([html.Img(id = 'eegFeatureVisual', src = '')],
+                                id='plot_div'),
                             )
                         ]
                     ),
@@ -267,7 +269,7 @@ app.layout = (
     )
 )
 
-@app.callback(Output('eegFeatureVisual','figure'),
+@app.callback(Output('eegFeatureVisual','src'),
               Input('submit-button','n_clicks'),
               State('file-upload', 'filename'),
               State('featureName','value'),
@@ -303,7 +305,7 @@ def update_graph(n, subjectList, featureName, referenceName, epochList):
     mneInfo = mne.create_info(ch_names = electrodeList, ch_types = ['eeg'] * numElectrodes, sfreq=250)
     mneInfo.set_montage('standard_1020')
     
-    fig, ax = plt.subplots(ncols=numEpochs+1, nrows=numFeatures+1, figsize=(100, 100), gridspec_kw=dict(top=0.9),
+    fig, ax = plt.subplots(ncols=numEpochs+1, nrows=numFeatures+1, figsize=(10, 10), gridspec_kw=dict(top=0.9),
                             sharex=True, sharey=True)
     
     for epoch in range(0, numEpochs):
@@ -312,7 +314,7 @@ def update_graph(n, subjectList, featureName, referenceName, epochList):
             feature_name = featureList[feature]
             dataToPlot = iccValuesArr[epoch][feature]
             mne.viz.plot_topomap(dataToPlot, mneInfo, axes = ax[feature][epoch], show = False)
-            ax[feature][epoch].set_title([feature_name, epoch_num], fontweight='bold', fontsize=64)
+            ax[feature][epoch].set_title([feature_name, epoch_num], fontweight='bold', fontsize=4)
 
     out_url = fig_to_uri(fig)
     return out_url
